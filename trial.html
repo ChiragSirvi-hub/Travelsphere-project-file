@@ -1,0 +1,1216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TravelSphere | Explore • Experience • Escape</title>
+    <style>
+        :root {
+            --primary-color: #bf360c;
+            --primary-hover: #e64a19;
+            --secondary-color: #3e2723;
+            --text-color: #333;
+            --bg-overlay: rgba(0, 0, 0, 0.65);
+            --card-bg: #fff;
+            --shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+            --border-radius: 16px;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background: url("https://www.transparenttextures.com/patterns/rocky-wall.png"),
+                        url("https://images.unsplash.com/photo-1501785888041-af3ef285b470");
+            background-size: 400px, cover;
+            background-attachment: fixed;
+            background-position: center;
+        }
+
+        .hidden { display: none !important; }
+
+        /* --- Header --- */
+        header {
+            background: linear-gradient(var(--bg-overlay), var(--bg-overlay));
+            color: #fff;
+            padding: 80px 20px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        header h1 {
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .tagline {
+            font-size: clamp(1rem, 4vw, 1.5rem);
+            font-weight: 300;
+            opacity: 0.9;
+        }
+
+        /* --- Main Sections --- */
+        section {
+            padding: 60px 20px;
+            background: rgba(255, 255, 255, 0.98);
+            margin: 40px auto;
+            border-radius: var(--border-radius);
+            max-width: 1200px;
+            width: 90%;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            color: var(--primary-color);
+            font-size: 2.2rem;
+            margin-bottom: 40px;
+            text-align: center;
+            position: relative;
+        }
+
+        h2::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: var(--primary-color);
+            margin: 10px auto 0;
+            border-radius: 2px;
+        }
+
+        /* --- Grid Containers --- */
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            justify-items: center;
+        }
+
+        /* --- Cards --- */
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            transition: var(--transition);
+            cursor: pointer;
+            width: 100%;
+            max-width: 350px;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+
+        .card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .card:hover img {
+            transform: scale(1.05);
+        }
+
+        .card-content {
+            padding: 20px;
+            text-align: left;
+        }
+
+        .card-content h3 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-size: 1.4rem;
+        }
+
+        .card-content p {
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: #555;
+        }
+
+        /* --- Details Page --- */
+        .detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            text-align: left;
+        }
+
+        @media (max-width: 850px) {
+            .detail-grid { grid-template-columns: 1fr; }
+        }
+
+        .detail-info h3 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        .detail-section {
+            margin-bottom: 25px;
+        }
+
+        .detail-section h4 {
+            color: var(--secondary-color);
+            margin-bottom: 8px;
+            border-left: 4px solid var(--primary-color);
+            padding-left: 10px;
+        }
+
+        .detail-section ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .detail-section li {
+            background: #f0f0f0;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        /* --- Slider --- */
+        .slider-container {
+            position: relative;
+            height: 400px;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            background: #000;
+            box-shadow: var(--shadow);
+        }
+
+        .slider-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .slider-img.active {
+            opacity: 1;
+        }
+
+        .slider-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.5);
+            color: #fff;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            z-index: 10;
+            transition: var(--transition);
+        }
+
+        .slider-btn:hover { background: var(--primary-color); }
+        .prev { left: 15px; }
+        .next { right: 15px; }
+
+        /* --- Hotel Selection --- */
+        .hotel-options {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+
+        .hotel-chip {
+            padding: 10px 20px;
+            background: #fff;
+            border: 2px solid #ddd;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 600;
+        }
+
+        .hotel-chip:hover, .hotel-chip.active {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            background: #fff3f0;
+        }
+
+        /* --- Forms & Buttons --- */
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(191, 54, 12, 0.1);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 14px 35px;
+            background: var(--primary-color);
+            color: #fff;
+            border: none;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            margin: 10px 5px;
+        }
+
+        .btn:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(230, 74, 25, 0.3);
+        }
+
+        .btn-secondary {
+            background: #666;
+        }
+
+        .btn-secondary:hover {
+            background: #444;
+        }
+
+        /* --- Payment --- */
+        .payment-card {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 30px;
+        }
+
+        .qr-container {
+            text-align: center;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: var(--border-radius);
+            margin: 20px 0;
+        }
+
+        #timer {
+            font-weight: bold;
+            color: #d32f2f;
+            font-size: 1.2rem;
+            margin-top: 10px;
+        }
+
+        /* --- Chatbot --- */
+        #chat-toggle {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: var(--primary-color);
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        #chat-toggle:hover { transform: scale(1.1); }
+
+        #chat-box {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            width: 350px;
+            height: 450px;
+            background: #fff;
+            border-radius: var(--border-radius);
+            box-shadow: 0 15px 50px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            z-index: 1000;
+            transition: var(--transition);
+            transform: translateY(20px);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        #chat-box.active {
+            transform: translateY(0);
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .chat-header {
+            background: var(--primary-color);
+            color: #fff;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        #chat-messages {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .msg {
+            padding: 10px 15px;
+            border-radius: 15px;
+            max-width: 80%;
+            font-size: 0.95rem;
+        }
+
+        .msg.bot { background: #f0f0f0; align-self: flex-start; border-bottom-left-radius: 2px; }
+        .msg.user { background: var(--primary-color); color: #fff; align-self: flex-end; border-bottom-right-radius: 2px; }
+
+        .chat-input-area {
+            padding: 10px;
+            border-top: 1px solid #eee;
+            display: flex;
+        }
+
+        #chat-input {
+            flex: 1;
+            border: none;
+            padding: 10px;
+            outline: none;
+        }
+
+        /* --- Footer --- */
+        footer {
+            background: var(--secondary-color);
+            color: #fff;
+            padding: 40px 20px;
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        /* --- Responsive --- */
+        @media (max-width: 600px) {
+            header { padding: 50px 15px; }
+            section { width: 95%; padding: 30px 15px; }
+            #chat-box { width: calc(100% - 40px); right: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>TravelSphere</h1>
+        <div class="tagline">Explore • Experience • Escape the Ordinary</div>
+    </header>
+
+    <!-- Home Section -->
+    <section id="home">
+        <h2>Choose Your Travel Style</h2>
+        <div class="container">
+            <div class="card" onclick="openCategory('solo')">
+                <img src="https://www.travelandleisure.com/thmb/0VePyDWsk3kDm1PWB24-AStwwNw=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/solo-travel-ENTRY0716-a8f0570cbc5c41c8a3b44a3a0bde4673.jpg">
+                <div class="card-content">
+                    <h3>Solo Trips</h3>
+                    <p>Adventure & Freedom</p>
+                </div>
+            </div>
+            <div class="card" onclick="openCategory('couple')">
+                <img src="https://media.istockphoto.com/id/1724524785/photo/young-millennial-couple-enjoying-their-trip-to-menton-while-travelling-in-the-south-of-france.jpg?s=612x612&w=0&k=20&c=3GpGXML6vfFv72AoY11KPiYv2wsx4uhdRej7vM5G7wQ=">
+                <div class="card-content">
+                    <h3>Couple Trips</h3>
+                    <p>Romance & Memories</p>
+                </div>
+            </div>
+            <div class="card" onclick="openCategory('family')">
+                <img src="https://threesixtyfivecollective.com/wp-content/uploads/2024/05/tyler-nix-V3dHmb1MOXM-unsplash-1.jpg">
+                <div class="card-content">
+                    <h3>Family Trips</h3>
+                    <p>Togetherness & Fun</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Recommendations Section -->
+    <section id="recommend" class="hidden">
+        <h2 id="recTitle">Packages</h2>
+        <div class="container" id="recommendBox"></div>
+        <div style="text-align: center; margin-top: 30px;">
+            <button class="btn btn-secondary" onclick="goHome()">← Back to Home</button>
+        </div>
+    </section>
+
+    <!-- Details Section -->
+    <section id="details" class="hidden">
+        <div id="detailBox"></div>
+        <div style="text-align: center; margin-top: 30px;">
+            <button class="btn btn-secondary" onclick="goBackToCategory()">← Back to Packages</button>
+            <button class="btn" onclick="openPayment()">Book This Trip Now</button>
+        </div>
+    </section>
+
+    <!-- Payment Section -->
+    <section id="payment" class="hidden">
+        <h2>Secure Booking</h2>
+        <div class="payment-card">
+            <h3 id="payTitle" style="margin-bottom: 20px; text-align: center;"></h3>
+            
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" id="userName" placeholder="Enter your full name">
+            </div>
+            <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" id="userEmail" placeholder="email@example.com">
+            </div>
+            <div class="form-group">
+                <label>Travel Date</label>
+                <input type="date" id="travelDate">
+            </div>
+            <div class="form-group">
+                <label>Payment Method</label>
+                <select id="payMethod" onchange="togglePaymentFields()">
+                    <option value="">Select Method</option>
+                    <option value="CARD">Credit / Debit Card</option>
+                    <option value="UPI">UPI (Scan QR)</option>
+                </select>
+            </div>
+
+            <div id="cardBox" class="hidden">
+                <div class="form-group">
+                    <label>Card Number</label>
+                    <input type="text" placeholder="0000 0000 0000 0000">
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <div class="form-group">
+                        <label>Expiry</label>
+                        <input type="month">
+                    </div>
+                    <div class="form-group">
+                        <label>CVV</label>
+                        <input type="password" placeholder="***">
+                    </div>
+                </div>
+            </div>
+
+            <div id="upiBox" class="hidden">
+                <div class="qr-container">
+                    <img id="upiQR" alt="UPI QR Code" style="max-width: 200px;">
+                    <p style="margin-top: 10px;">Scan with any UPI App</p>
+                    <div id="timer">02:00</div>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 20px;">
+                <button class="btn btn-secondary" onclick="backToDetails()">← Back</button>
+                <button class="btn" onclick="completePayment()">Confirm & Pay</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Success Section -->
+    <section id="success" class="hidden" style="text-align: center;">
+        <div style="font-size: 100px; color: #4caf50; margin-bottom: 20px;">✓</div>
+        <h2>Booking Confirmed!</h2>
+        <p style="font-size: 1.2rem; margin-bottom: 30px;">
+            Pack your bags! Your trip has been successfully booked.<br>
+            A confirmation email has been sent to you.
+        </p>
+        <button class="btn" onclick="goHome()">Return to Home</button>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 TravelSphere. All rights reserved.</p>
+        <p style="margin-top: 10px; font-size: 0.9rem; opacity: 0.7;">Crafting unforgettable journeys across India.</p>
+    </footer>
+
+    <!-- Chatbot -->
+    <div id="chat-toggle" onclick="toggleChat()">💬</div>
+    <div id="chat-box">
+        <div class="chat-header">
+            <strong>Yatra Assistant</strong>
+            <span style="cursor: pointer;" onclick="toggleChat()">✕</span>
+        </div>
+        <div id="chat-messages"></div>
+        <div class="chat-input-area">
+            <input type="text" id="chat-input" placeholder="Ask me something..." onkeydown="if(event.key==='Enter') sendChatMessage()">
+            <button onclick="sendChatMessage()" style="background: none; border: none; cursor: pointer; font-size: 1.2rem;">➤</button>
+        </div>
+    </div>
+
+    <script>
+        // --- Data ---
+        const data = {
+            solo: [
+                {
+                    place:"Rishikesh",
+		    budget:8000,
+		    duration:"4 Days",
+		    description:"Rishikesh blends spirituality with adventure.",
+		    special:["River Rafting","Ganga Aarti"],
+		    normal:["Yoga","Temple visits","Cafe hopping"],
+		    bestTime:"Sep–Apr",
+    		    images:[
+		    	"https://www.agoda.com/wp-content/uploads/2023/03/Featured-photo_Rishikesh.jpg",
+		    	"https://bookmyraft.com/assets/img/blog/adventure-activities-in-rishikesh.jpeg",
+		    	"https://satyampropertiesinrishikesh.wordpress.com/wp-content/uploads/2015/03/rishikesh-view.png",
+		    	"https://dynamic-media-cdn.tripadvisor.com/media/photo-o/15/4d/47/32/rishikesh.jpg?w=1200&h=700&s=1",
+		    	"https://www.justahotels.com/wp-content/uploads/2023/10/Places-To-Visit-in-Rishikesh-scaled.jpeg"
+		    ],
+                    hotels: [
+                        { name: "Ganga View Inn", stars: 3, price: 1800 },
+                        { name: "Divine Resort", stars: 4, price: 3500 },
+                        { name: "Aloha on the Ganges", stars: 5, price: 8500 },
+                        { name: "Taj Rishikesh", stars: 7, price: 15000 }
+                    ]
+                },
+                {
+                    place:"Manali",
+		    budget:12000,
+		    duration:"5 Days",
+		    description:"Snowy hill station with adventure.",
+		    special:["Snow","Paragliding"],
+		    normal:["Mall Road","Cafes"],
+		    bestTime:"Oct–Feb",
+		    images:[
+			"https://invisit.in/images/blog/11/img1.jpg",
+			"https://www.shikhar.com/blog/wp-content/uploads/2019/09/Hampta-pass.jpg",
+			"https://www.holidest.com/images/indiatours/himachal/manali_8.jpg",
+			"https://www.honeymoonpackagesmanali.org/uploads/8/2/6/1/8261259/p179.png",
+			"https://dynamic.tourtravelworld.com/package-images/photo-big/dir_59/1746617/406523.jpg"
+		    ],
+                    hotels: [
+                        { name: "Snow Valley Stay", stars: 3, price: 2200 },
+                        { name: "Apple Country Resort", stars: 4, price: 3500 },
+                        { name: "Span Resort & Spa", stars: 5, price: 8500 },
+                        { name: "The Himalayan Palace", stars: 7, price: 15000 }
+                    ]
+                },
+                {
+                   place:"Leh–Ladakh",
+		   budget:18000,
+		   duration:"7 Days",
+		   description:"High altitude desert mountains.",
+		   special:["Bike trip","Pangong"],
+		   normal:["Monasteries","Markets"],
+		   bestTime:"Jun–Sep",
+		   images:[
+			"https://i0.wp.com/lahimalaya.com/wp-content/uploads/2019/08/Ladakh-trip.jpg",
+			"https://media.moxtain.com/blogs/PlacesToVisitInLeh-Ladakh/pangong-lake-ladakh.jpg",
+			"https://thirdeyetraveller.com/wp-content/uploads/2017/08/leh-ladakh-travel-guide.jpg",
+			"https://www.tourmyindia.com/states/ladakh/imagess/photography-in-ladakh2.jpg",
+			"https://pratikavacations.com/wp-content/uploads/2023/10/LEH-LADAKH.jpg"
+		   ],
+                   hotels: [
+                        { name: "Ladakh View Hotel", stars: 3, price: 2500 },
+                        { name: "Grand Himalaya", stars: 4, price: 4200 },
+                        { name: "The Grand Dragon", stars: 5, price: 12000 },
+                        { name: "Royal Ladakh Retreat", stars: 7, price: 23000 }
+                    ]
+                },
+		{
+		   place:"Kasol",
+		   budget:10000,
+		   duration:"4 Days",
+		   description:"Backpacker heaven.",
+		   special:["Trekking","Camping"],
+		   normal:["Cafes","Nature"],
+		   bestTime:"Mar–Jun",
+		   images:[
+			"https://i.pinimg.com/736x/98/09/48/9809489fb06a4184ffe3d111590dd988.jpg",
+			"https://www.tusktravel.com/blog/wp-content/uploads/2021/12/Kasol-Himachal-Pradesh2.jpg",
+			"https://www.tripplannersindia.com/assets/images/page/kasol_3.webp",
+			"https://pandareviewz.com/wp-content/uploads/2017/06/kasol.jpg",
+			"https://www.tripplannersindia.com/assets/blog/images/kasolinwinter/Kasol.webp"
+		   ],
+		   hotels: [
+    			{ name: "Parvati View Stay", stars: 3, price: 1500 },
+    			{ name: "Kasol Heights Resort", stars: 4, price: 3800 },
+    			{ name: "Kasol Grand Resort", stars: 5, price: 8000 },
+   			{ name: "Royal Mountain Retreat", stars: 7, price: 18000 }
+		]
+		},
+		{
+		   place:"Spiti Valley",
+		   budget:22000,
+		   duration:"9 Days",
+		   description:"Cold desert valley.",
+	     	   special:["Star gazing","Road trip"],
+		   normal:["Monasteries"],
+		   bestTime:"Jun–Sep",
+		   images:[
+			"https://www.clubmahindra.com/blog/media/section_images/bannerdesk-bdc43f3444b3e96.webp",
+			"https://media.viacation.com/blogs/d10b494605515f219d96b.webp",
+			"https://captureatrip-cms-storage.s3.ap-south-1.amazonaws.com/Winter_Season_in_Spiti_Valley_3f90c47933.webp",
+			"https://discoverwithdheeraj.com/wp-content/uploads/2013/06/Best-Time-to-Visit-Spiti-Valley.jpg",
+			"https://siaphotography.in/assets/img/blog/blog-995591297.jpg"
+		   ],
+		   hotels: [
+    			{ name: "Spiti Valley Inn", stars: 3, price: 2000 },
+    			{ name: "Himalayan Horizon Hotel", stars: 4, price: 4000 },
+    			{ name: "Spiti Valley Resort", stars: 5, price: 9500 },
+    			{ name: "Royal Spiti Palace", stars: 7, price: 18000 }
+		]
+		},
+		{
+		   place:"McLeod Ganj",
+		   budget:9000,
+		   duration:"4 Days",
+		   description:"Peaceful Tibetan town.",
+		   special:["Meditation","Monastery"],
+		   normal:["Cafes","Walks"],
+		   bestTime:"Mar–Jun",
+		   images:[
+			"https://avathioutdoors.gumlet.io/travelGuide/dev/mcleodganj54556.jpg",
+			"https://travelsafoot.com/wp-content/uploads/2025/07/IMG_0108-1024x576.jpg",
+			"https://s7ap1.scene7.com/is/image/incredibleindia/mcleodganj-triund-kangra-himachal-pradesh-2-attr-hero?qlt=82&ts=1726729959102",
+			"https://www.tusktravel.com/blog/wp-content/uploads/2021/02/Mcleod-Ganj.jpg",
+			"https://www.hptourtravel.com/wp-content/uploads/2023/09/Bhagsu_Waterfall.webp"
+		   ],
+		   hotels: [
+    			{ name: "Triund View Hotel", stars: 3, price: 1800 },
+    			{ name: "Hilltop Resort", stars: 4, price: 3500 },
+    			{ name: "Dharamshala Grand Resort", stars: 5, price: 8200 },
+    			{ name: "Royal Tibetan Retreat", stars: 7, price: 17000 }
+		   ]
+		}
+	    ],
+            couple: [
+                {
+                    place: "Udaipur", budget: 25000, duration: "6 Days",
+                    description: "The Venice of the East, Udaipur is a city of lakes and palaces, offering a truly royal romantic experience.",
+                    special: ["Lake Pichola Boat Ride", "Dinner at Jagmandir", "Vintage Car Museum"],
+                    normal: ["City Palace", "Saheliyon-ki-Bari", "Local Markets"],
+                    bestTime: "October – March",
+                    images: [
+                        "https://www.holidify.com/images/bgImages/UDAIPUR.jpg",
+                        "https://www.fabhotels.com/blog/wp-content/uploads/2023/01/City-Palace-min.jpg",
+			"https://coopershill.design/wp-content/uploads/2025/08/Raffles-Udaipur-India-1-scaled.jpg",
+			"https://www.justahotels.com/wp-content/uploads/2023/12/BK265417.jpg",
+			"https://c.ndtvimg.com/2025-06/c429k71o_udaipur_625x300_09_June_25.jpg?im=FitAndFill,algorithm=dnn,width=545,height=307"
+                    ],
+                    hotels: [
+                        { name: "Lake View Inn", stars: 3, price: 3000 },
+                        { name: "Radisson Blu", stars: 4, price: 6000 },
+                        { name: "The Leela Palace", stars: 5, price: 25000 },
+                        { name: "Oberoi Udaivilas", stars: 7, price: 45000 }
+                    ]
+                },
+                {
+                    place: "Kerala", budget: 35000, duration: "8 Days",
+                    description: "God's Own Country offers serene backwaters, lush tea gardens, and pristine beaches for the perfect getaway.",
+                    special: ["Houseboat Stay", "Munnar Tea Gardens", "Kathakali Performance"],
+                    normal: ["Alleppey Backwaters", "Varkala Beach", "Spice Plantations"],
+                    bestTime: "September – March",
+                    images: [
+                        "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=800&q=80",
+                        "https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&w=800&q=80",
+			"https://holidaysdna.com/wp-content/uploads/best-places-to-visit-in-kerala-india-1.jpg",
+			"https://static.toiimg.com/thumb/msid-113573356,width-748,height-499,resizemode=4,imgsize-165114/.jpg",
+			"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsxjFXyPqIlIVCSc_LB3Hp70lUuIJKAzKZgA&s"
+                    ],
+                    hotels: [
+                        { name: "Green Leaf Stay", stars: 3, price: 2500 },
+                        { name: "Spice Village", stars: 4, price: 5500 },
+                        { name: "Kumarakom Lake Resort", stars: 5, price: 15000 },
+                        { name: "The Raviz", stars: 7, price: 25000 }
+                    ]
+                },
+		{
+		    place: "Kashmir",
+		    budget: 40000,
+		    duration: "9 Days",
+		    description: "Kashmir is paradise on earth with snow mountains, lakes and gardens.",
+		    special: ["Shikara Ride", "Snow Activities", "Gondola Ride"],
+		    normal: ["Sightseeing", "Photography", "Local markets", "Nature walks"],
+		    bestTime: "April – October",
+		    images: [
+			"https://www.anubhavvacations.in/blog/wp-content/uploads/2025/01/kashmir-featured-1200x801.webp",
+			"https://www.sharpholidays.in/blog/wp-content/uploads/2021/01/Kashmir-tour-winter.jpg",
+			"https://kashmirtourtravel.com/blog/wp-content/uploads/2023/07/best-time-to-visit-kashmir-e1705497783448.jpg",
+			"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy-qmJH3eqXnDBLLaCqiM-Uw7_O5BawmDyDg&s",
+			"https://images.travelandleisureasia.com/wp-content/uploads/sites/7/2024/06/04192621/dal-lake-1.jpeg?tr=w-480,f-jpg,pr-true"
+		    ],
+		    hotels: [
+    			{ name: "Kashmir View Hotel", stars: 3, price: 3000 },
+    			{ name: "Grand Kashmir Resort", stars: 4, price: 6500 },
+    			{ name: "Khyber Resort", stars: 5, price: 18000 },
+    			{ name: "Royal Kashmir Palace", stars: 7, price: 30000 }
+		    ]
+		},
+		{
+		    place: "Andaman",
+		    budget: 45000,
+		    duration: "10 Days",
+		    description: "Andaman offers crystal clear water, beaches and peaceful island life.",
+		    special: ["Scuba Diving", "Snorkeling", "Island Hopping"],
+		    normal: ["Beach leisure", "Boat rides", "Photography"],
+		    bestTime: "October – May",
+		    images: [
+			"https://www.naturetravelagency.com/uploads/1708583157best%20time%20to%20visit%20Andaman%20and%20Nicobar.jpg",
+			"https://dynamic.tourtravelworld.com/blog_images/best-time-to-visit-andaman-islands-20161206031710.jpg",
+			"https://cms.midha.guru/wp-content/uploads/2024/11/andaman-and-nicobar-island.jpg",
+			"https://sevensandstourism.com/wp-content/uploads/2025/09/desktop-wallpaper-andaman-nicobar-islands-andaman-and-nicobar-islands.jpg",
+			"https://invisit.in/images/blog/37/banner-m.jpg"
+		    ],
+		    hotels: [
+    			{ name: "Sea View Stay", stars: 3, price: 3500 },
+    			{ name: "Blue Ocean Resort", stars: 4, price: 7000 },
+    			{ name: "Taj Exotica Andaman", stars: 5, price: 20000 },
+    			{ name: "Luxury Island Palace", stars: 7, price: 35000 }
+		    ]
+		},
+		{
+		    place: "Munnar",
+		    budget: 28000,
+		    duration: "6 Days",
+		    description: "Munnar is famous for tea gardens, hills and romantic nature views.",
+		    special: ["Tea Plantation Visit", "Nature Walk"],
+		    normal: ["Sightseeing", "Photography", "Local markets"],
+		    bestTime: "September – March",
+		    images: [
+			"https://snaptoro.com/wp-content/uploads/2023/03/Beautiful-Munnar-Places-To-Visit-in-Kerala.jpg",
+			"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSiJMzetgiR8qqFnCZz1mE7385pngmcviFbEQ&s",
+			"https://backpackersunited.in/_next/image?url=https%3A%2F%2Fbpu-images-v1.s3.eu-north-1.amazonaws.com%2Fuploads%2F1717663049830_plantation-7470027_1920.jpg&w=1920&q=75",
+			"https://travelentice.com/wp-content/uploads/2021/10/Munnar-Tourist-Places-12-Best-Places-to-Visit-in-Munnar-Hill-Station-India..jpg",
+			"https://s7ap1.scene7.com/is/image/incredibleindia/top-station-munnar-kerala-2-attr-hero?qlt=82&ts=1726672797855"
+		    ],
+		    hotels: [
+    			{ name: "Green Valley Stay", stars: 3, price: 2500 },
+    			{ name: "Munnar Hills Resort", stars: 4, price: 6000 },
+    			{ name: "Spice Tree Resort", stars: 5, price: 14000 },
+    			{ name: "Luxury Tea Estate Palace", stars: 7, price: 25000 }
+		    ]
+		},
+		{
+		    place: "Mussoorie",
+		    budget: 22000,
+		    duration: "5 Days",
+		    description: "Mussoorie is a scenic hill station perfect for romantic trips.",
+		    special: ["Sunset Points", "Ropeway Ride"],
+		    normal: ["Mall Road", "Sightseeing", "Photography"],
+		    bestTime: "March – June",
+		    images: [
+			"https://c.ndtvimg.com/gws/ms/top-places-to-visit-in-mussoorie/assets/2.jpeg?1727874795",
+			"https://www.shrineyatra.com/wp-content/uploads/2022/04/Places-to-Visit-in-Mussoorie.jpg",
+			"https://navbharattourism.com/wp-content/uploads/Shimla-Manali-Mussoorie-%E2%80%93-Best-Winter-Travel-Packages.jpg",
+			"https://allseasonsz.com/Imageswebp/DestinationPage/things-to-do-in-mussoorie-in-april.webp",
+			"https://travelthrivehub.com/wp-content/uploads/2025/10/image-26-e17607864937471.jpeg"
+		    ],
+		    hotels: [
+    			{ name: "Hill View Stay", stars: 3, price: 2200 },
+    			{ name: "Mussoorie Heights Hotel", stars: 4, price: 4500 },
+    			{ name: "JW Marriott Mussoorie", stars: 5, price: 15000 },
+    			{ name: "Luxury Hill Palace", stars: 7, price: 25000 }
+		    ]
+		}
+            ],
+            family: [
+                {
+                    place: "Jaipur", budget: 30000, duration: "6 Days",
+                    description: "The Pink City is a treasure trove of history, culture, and architecture, perfect for an educational family trip.",
+                    special: ["Elephant Ride at Amer Fort", "Chokhi Dhani Village", "Hot Air Balloon"],
+                    normal: ["Hawa Mahal", "Jantar Mantar", "Johari Bazaar"],
+                    bestTime: "October – March",
+                    images: [
+                        "https://www.holidaymonk.com/wp-content/uploads/2022/03/Rajasthan.jpg",
+                        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRA_G_jx08vsJXDrZDOUkGC8sHG-YDfkNpc5Q&s",
+			"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTt1Gm8qdtcDOEay6InW8B22Vd9jx6hakBN3Q&s",
+			"https://i0.wp.com/twoflashpackers.com/wp-content/uploads/2021/12/DSC_0452-1-scaled.jpg?resize=1280%2C640&ssl=1",
+			"https://blog.lemontreehotels.com/wp-content/uploads/2024/05/2j.jpg"
+                    ],
+                    hotels: [
+                        { name: "Heritage Inn", stars: 3, price: 2800 },
+                        { name: "ITC Rajputana", stars: 4, price: 7000 },
+                        { name: "Rambagh Palace", stars: 5, price: 35000 },
+                        { name: "Fairmont Jaipur", stars: 7, price: 20000 }
+                    ]
+                },
+		{
+		    place: "Ooty",
+		    budget: 28000,
+		    duration: "6 Days",
+		    description: "Ooty is a calm hill station with greenery, ideal for family relaxation.",
+		    special: ["Toy Train Ride", "Botanical Garden"],
+		    normal: ["Boating", "Sightseeing", "Nature walks"],
+		    bestTime: "March – June",
+		    images: [
+			"https://hikerwolf.com/wp-content/uploads/2020/06/Ooty.jpg",
+			"https://cpjlcwamma.cloudimg.io/wp-content/uploads/2026/03/Places-to-Visit-in-Ooty.jpg?width=1920&height=550&func=boundmin&force_format=webp&q=98",
+			"https://www.agoda.com/wp-content/uploads/2024/09/ooty-india-featured-1244x700.jpg",
+			"https://experiencekerala.in/kerala-tourism-blog/wp-content/uploads/2020/03/13-25.jpg",
+			"https://thewandertherapy.com/wp-content/uploads/2025/01/6.best-hotels-resorts-homestays-in-ooty.jpg"
+		    ],
+		    hotels: [
+    			{ name: "Green Valley Stay", stars: 3, price: 2500 },
+    			{ name: "Ooty Hill Resort", stars: 4, price: 6000 },
+    			{ name: "Savoy IHCL Ooty", stars: 5, price: 15000 },
+    			{ name: "Luxury Mountain Palace", stars: 7, price: 25000 }
+		    ]
+		},
+		{
+		    place: "Vaishno Devi",
+    		    budget: 20000,
+		    duration: "5 Days",
+		    description: "Vaishno Devi is a sacred pilgrimage destination for spiritual family trips.",
+		    special: ["Temple Darshan", "Spiritual Walk"],
+		    normal: ["Local visits", "Shopping", "Temple walks"],
+		    bestTime: "March – October",
+		    images: [
+			"https://www.revv.co.in/blogs/wp-content/uploads/2021/10/vaishnodevi.jpg",
+			"https://blog.lemontreehotels.com/wp-content/uploads/2025/02/Things-to-Pack-for-Vaishno-Devi-Trip.jpg",
+			"https://media.easemytrip.com/media/Blog/India/638920644073170722/638920644073170722oK83eX.png",
+			"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTHjSN9H07c63oOi5Uq2KUV0R5zQAIYFdBCA&s",
+			"https://i.pinimg.com/originals/83/86/54/83865469cd42cde1ca77e9c8695fe45f.jpg"
+		    ],
+		    hotels: [
+    			{ name: "Katra Stay Inn", stars: 3, price: 2000 },
+    			{ name: "Vaishno Residency", stars: 4, price: 4500 },
+    			{ name: "The White Hotel", stars: 5, price: 9000 },
+    			{ name: "Royal Spiritual Palace", stars: 7, price: 15000 }
+		    ]
+		},
+		{
+		    place: "Tirupati",
+		    budget: 18000,
+	 	    duration: "4 Days",
+		    description: "Tirupati is one of India's most visited spiritual destinations.",
+		    special: ["Balaji Darshan", "Temple Rituals"],
+		    normal: ["Temple visits", "Local markets", "Spiritual walks"],
+		    bestTime: "All year",
+		    images: [
+			"https://tirupatibalajitravels.co.in/wp-content/uploads/2024/01/balaji-temple-1.webp",
+			"https://d3sftlgbtusmnv.cloudfront.net/blog/wp-content/uploads/2024/09/view-of-Tirumala-Venkateswara-Cover-Photo-840x425.jpg",
+			"https://blog.redbus.in/wp-content/uploads/2022/06/Top-10-Things-To-Do-In-Surat-6.png",
+			"https://images.pond5.com/tirupati-balaji.jpg",
+			"https://img.cuddlynest.com/images/locations/tirupati-india.jpg"
+		    ],
+		    hotels: [
+    			{ name: "Temple View Stay", stars: 3, price: 1800 },
+    			{ name: "Tirupati Residency", stars: 4, price: 4000 },
+    			{ name: "Fortune Select Tirupati", stars: 5, price: 9000 },
+    			{ name: "Royal Temple Palace", stars: 7, price: 15000 }
+		    ]
+		},
+		{
+		    place: "Darjeeling",
+		    budget: 25000,
+		    duration: "6 Days",
+		    description: "Darjeeling offers tea gardens, mountains and pleasant family weather.",
+		    special: ["Toy Train", "Tiger Hill Sunrise"],
+		    normal: ["Sightseeing", "Photography", "Local markets"],
+		    bestTime: "March – May",
+		    images: [
+			"https://www.holidaymonk.com/wp-content/uploads/2021/07/Darjeeling-1024x639.jpg",
+			"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROnktqjl4fii8lkw5lECiYdiTlOIkkfDLbiQ&s",
+			"https://holidays.tripfactory.com/blogs/wp-content/uploads/sites/6/2024/02/Darjeeling-Ropeway-1024x576.webp",
+			"https://seoimgak.mmtcdn.com/blog/sites/default/files/styles/mobile_cover_images/public/gradient_46_0.jpg?J5DkTiVxJyJIIrlkDHhh_WykBCSosCr8&itok=M2lPPY2J",
+			"https://i.pinimg.com/474x/2f/51/90/2f5190722bdbf72d1f3f9f29464fe100.jpg"
+		    ],
+		    hotels: [
+    			{ name: "Hill View Stay", stars: 3, price: 2500 },
+    			{ name: "Darjeeling Heights Hotel", stars: 4, price: 5500 },
+    			{ name: "Mayfair Darjeeling", stars: 5, price: 14000 },
+    			{ name: "Luxury Tea Palace", stars: 7, price: 22000 }
+		    ]
+		},
+		{
+		    place: "Shimla",
+		    budget: 24000,
+		    duration: "5 Days",
+		    description: "Shimla is a classic family hill station with scenic beauty.",
+		    special: ["Kufri Visit", "Snowfall"],
+		    normal: ["Mall Road", "Sightseeing", "Photography"],
+		    bestTime: "March – June",
+		    images: [
+			"https://www.clubmahindra.com/blog/media/section_images/shuttersto-1a47b83e6a03271.jpg",
+			"https://s7ap1.scene7.com/is/image/incredibleindia/the-mall-road-shimla-himachal-pradesh-3-attr-hero?qlt=82&ts=1742177571287",
+			"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRT8738HQZaV-HJWVHFdLfzvEYnEM6l5WZF0g&s",
+			"https://media4.thrillophilia.com/images/photos/000/107/702/original/1487074598_5753295101_112d2bd9d9_o.jpg?aio=w-753;h-450;crop&dpr=2",
+			"https://i0.wp.com/weekendyaari.in/wp-content/uploads/2024/10/shimla.jpg?fit=800%2C600&ssl=1"
+		    ],
+		    hotels: [
+    			{ name: "Shimla Stay Inn", stars: 3, price: 2300 },
+    			{ name: "Snow Valley Resort", stars: 4, price: 5000 },
+    			{ name: "Wildflower Hall", stars: 5, price: 18000 },
+    			{ name: "Luxury Himalayan Palace", stars: 7, price: 28000 }
+		    ]
+		}
+            ]
+        };
+
+        // --- State ---
+        let currentCategory = "";
+        let currentTripIndex = -1;
+        let selectedHotelPrice = 0;
+        let slideIndex = 0;
+        let timerInterval;
+
+        // --- Navigation ---
+        function openCategory(cat) {
+            currentCategory = cat;
+	    console.log(data[cat]);
+            document.getElementById("home").classList.add("hidden");
+            document.getElementById("recommend").classList.remove("hidden");
+            document.getElementById("recTitle").innerText = cat.charAt(0).toUpperCase() + cat.slice(1) + " Adventures";
+            
+            const box = document.getElementById("recommendBox");
+            box.innerHTML = data[cat].map((p, i) => {
+    		 return `
+        	     <div class="card" onclick="showDetails(${i})">
+            		  <img src="${p.images[0]}" alt="${p.place}">
+            		  <div class="card-content">
+                	      <h3>${p.place}</h3>
+                	      <p>Starting from ₹${p.budget}</p>
+            		  </div>
+       		     </div>
+    		 `;
+	    }).join("");
+            window.scrollTo(0, 0);
+        }
+
+        function showDetails(index) {
+            currentTripIndex = index;
+            const p = data[currentCategory][index];
+            selectedHotelPrice = 0;
+            slideIndex = 0;
+
+            document.getElementById("recommend").classList.add("hidden");
+            document.getElementById("details").classList.remove("hidden");
+
+            const detailBox = document.getElementById("detailBox");
+            detailBox.innerHTML = `
+                <div class="detail-grid">
+                    <div class="slider-container">
+                        ${p.images.map((img, idx) => `<img src="${img}" class="slider-img ${idx === 0 ? 'active' : ''}">`).join("")}
+                        <button class="slider-btn prev" onclick="changeSlide(-1)">❮</button>
+                        <button class="slider-btn next" onclick="changeSlide(1)">❯</button>
+                    </div>
+                    <div class="detail-info">
+                        <h3>${p.place}</h3>
+                        <p style="font-size: 1.2rem; color: #666; margin-bottom: 20px;">Base Package: <strong>₹${p.budget}</strong> | ${p.duration}</p>
+                        <p>${p.description}</p>
+                        
+                        <div class="detail-section" style="margin-top: 20px;">
+                            <h4>Highlights</h4>
+                            <ul>${p.special.map(s => `<li>${s}</li>`).join("")}</ul>
+                        </div>
+                        
+                        <div class="detail-section">
+                            <h4>Activities</h4>
+                            <ul>${p.normal.map(n => `<li>${n}</li>`).join("")}</ul>
+                        </div>
+
+                        <div class="detail-section">
+                            <h4>Best Time to Visit</h4>
+                            <p>${p.bestTime}</p>
+                        </div>
+
+                        <div class="detail-section">
+                            <h4>Choose Accommodation</h4>
+                            <div class="hotel-options">
+                                ${p.hotels.map((h, hi) => `
+                                    <div class="hotel-chip" onclick="selectHotel(${hi}, this)">
+                                        ${h.stars}★ ${h.name} (+₹${h.price})
+                                    </div>
+                                `).join("")}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            window.scrollTo(0, 0);
+        }
+
+        function selectHotel(hotelIndex, element) {
+            const p = data[currentCategory][currentTripIndex];
+            const hotel = p.hotels[hotelIndex];
+            selectedHotelPrice = hotel.price;
+            
+            // UI Update
+            document.querySelectorAll('.hotel-chip').forEach(c => c.classList.remove('active'));
+            element.classList.add('active');
+        }
+
+        function changeSlide(n) {
+            const imgs = document.querySelectorAll(".slider-img");
+            imgs[slideIndex].classList.remove("active");
+            slideIndex = (slideIndex + n + imgs.length) % imgs.length;
+            imgs[slideIndex].classList.add("active");
+        }
+
+        function openPayment() {
+            if (selectedHotelPrice === 0) {
+                alert("Please select a hotel category first! 🏨");
+                return;
+            }
+            const p = data[currentCategory][currentTripIndex];
+            const total = p.budget + selectedHotelPrice;
+            
+            document.getElementById("details").classList.add("hidden");
+            document.getElementById("payment").classList.remove("hidden");
+            document.getElementById("payTitle").innerText = `${p.place} - Total: ₹${total}`;
+            window.scrollTo(0, 0);
+        }
+
+        function togglePaymentFields() {
+            const method = document.getElementById("payMethod").value;
+            document.getElementById("cardBox").classList.add("hidden");
+            document.getElementById("upiBox").classList.add("hidden");
+            clearInterval(timerInterval);
+
+            if (method === "CARD") {
+                document.getElementById("cardBox").classList.remove("hidden");
+            } else if (method === "UPI") {
+                document.getElementById("upiBox").classList.remove("hidden");
+                startUPITimer();
+                generateQR();
+            }
+        }
+
+        function generateQR() {
+            const p = data[currentCategory][currentTripIndex];
+            const total = p.budget + selectedHotelPrice;
+            const upiURL = `upi://pay?pa=travelsphere@upi&pn=TravelSphere&am=${total}&cu=INR`;
+            document.getElementById("upiQR").src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(upiURL)}`;
+        }
+
+        function startUPITimer() {
+            let timeLeft = 120;
+            const timerDisplay = document.getElementById("timer");
+            timerInterval = setInterval(() => {
+                let mins = Math.floor(timeLeft / 60);
+                let secs = timeLeft % 60;
+                timerDisplay.innerText = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+                if (--timeLeft < 0) {
+                    clearInterval(timerInterval);
+                    timerDisplay.innerText = "Expired";
+                }
+            }, 1000);
+        }
+
+        function completePayment() {
+            const name = document.getElementById("userName").value;
+            const date = document.getElementById("travelDate").value;
+            if (!name || !date) {
+                alert("Please fill in all details! 📝");
+                return;
+            }
+            document.getElementById("payment").classList.add("hidden");
+            document.getElementById("success").classList.remove("hidden");
+            window.scrollTo(0, 0);
+        }
+
+        function goHome() {
+            document.querySelectorAll('section').forEach(s => s.classList.add('hidden'));
+            document.getElementById("home").classList.remove("hidden");
+            window.scrollTo(0, 0);
+        }
+
+        function goBackToCategory() {
+            document.getElementById("details").classList.add("hidden");
+            document.getElementById("recommend").classList.remove("hidden");
+        }
+
+        function backToDetails() {
+            document.getElementById("payment").classList.add("hidden");
+            document.getElementById("details").classList.remove("hidden");
+        }
+
+        // --- Chatbot Logic ---
+        function toggleChat() {
+            document.getElementById("chat-box").classList.toggle("active");
+        }
+
+        function addChatMessage(role, text) {
+            const chatMessages = document.getElementById("chat-messages");
+            const msgDiv = document.createElement("div");
+            msgDiv.className = `msg ${role}`;
+            msgDiv.innerText = text;
+            chatMessages.appendChild(msgDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function sendChatMessage() {
+            const input = document.getElementById("chat-input");
+            const msg = input.value.trim().toLowerCase();
+            if (!msg) return;
+
+            addChatMessage("user", input.value);
+            input.value = "";
+
+            setTimeout(() => {
+                let reply = "I'm not sure about that. Try asking about 'Solo', 'Couple', or 'Family' trips!";
+                
+                if (msg.includes("hi") || msg.includes("hello")) {
+                    reply = "Hi there! 👋 Ready to explore the world? Tell me your travel style: Solo, Couple, or Family?";
+                } else if (msg.includes("solo")) {
+                    openCategory("solo");
+                    reply = "Great! I've opened our Solo adventure packages for you. 🎒";
+                } else if (msg.includes("couple")) {
+                    openCategory("couple");
+                    reply = "Romantic choice! ❤️ Check out these beautiful destinations.";
+                } else if (msg.includes("family")) {
+                    openCategory("family");
+                    reply = "Family trips are the best! 👨‍👩‍👧‍👦 Here are some great options.";
+                } else if (msg.includes("price") || msg.includes("cost")) {
+                    reply = "Our packages start from ₹8,000 and go up to ₹45,000 depending on the destination and hotel.";
+                }
+
+                addChatMessage("bot", reply);
+            }, 500);
+        }
+
+        // Initialize
+        window.onload = () => {
+            document.getElementById("travelDate").min = new Date().toISOString().split("T")[0];
+            addChatMessage("bot", "Hi! 👋 I'm Yatra, your travel assistant. How can I help you today?");
+        };
+    </script>
+</body>
+</html>
